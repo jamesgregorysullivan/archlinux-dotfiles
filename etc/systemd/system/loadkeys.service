@@ -1,0 +1,10 @@
+[Unit]
+Description=Loads custom keymap in console
+After=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/loadkeys -q /usr/local/share/kbd/keymaps/personal.map
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# powerdown - get energy usagei
+
+if [[ $EUID != 0 ]]; then
+  echo "[powerdown] must be run as root"
+  exit 1
+fi
+
+source /usr/local/lib/powerdown-functions
+
+display_power
+echo
+echo " Detail:"
+
+# bus
+#for i in /sys/bus/{pci,spi,i2c}/devices/*/power/control; do check $i; done
+
+# aspm
+check /sys/module/pcie_aspm/parameters/policy
+
+# usb autosuspend
+#check /sys/module/usbcore/parameters/autosuspend
+#for i in /sys/bus/usb/devices/*/power/autosuspend; do check $i; done
+#for i in /sys/bus/usb/devices/*/power/control; do check $i; done
+#for i in /sys/bus/usb/devices/*/power/level; do check $i; done
+
+# cpu
+for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do check $i; done
+
+# kernel write mode
+check /proc/sys/vm/laptop_mode
+check /proc/sys/vm/dirty_ratio
+check /proc/sys/vm/dirty_background_ratio
+check /proc/sys/vm/dirty_expire_centisecs
+check /proc/sys/vm/dirty_writeback_centisecs
+
+# Disk powersave
+for dev in "/dev/sd[a-z]"; do display_readahead $dev; done
+for i in /sys/class/scsi_host/host*/link_power_management_policy; do check $i; done
+
+# noatime
+
+# Sound card powersave
+check /sys/module/snd_hda_intel/parameters/power_save
+check /sys/module/snd_hda_intel/parameters/power_save_controller
+
+# wlan0 powersave
+display_wireless wlan0
+
+# Screen powersave
+for i in /sys/class/backlight/acpi_video*/brightness; do check $i; done
+
+# webcam
+display_module uvcvideo
+
+# bluetooth
+display_module btusb
+display_module bluetooth
+
+# radeon power profile
+check /sys/class/drm/card0/device/power_profile
+
+# nmi_watchdog
+check /proc/sys/kernel/nmi_watchdog

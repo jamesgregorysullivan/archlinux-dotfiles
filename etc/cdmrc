@@ -17,8 +17,8 @@ allowconsole=yes
 
 # Allow shutdown?
 allowshutdown=yes
-shutdowncommand='sudo shutdown -h now'
-rebootcommand='sudo shutdown -r now'
+shutdowncommand='sudo systemctl poweroff'
+rebootcommand='sudo systemctl reboot'
 
 # Allow suspend?
 # Note that this option requires pm-utils

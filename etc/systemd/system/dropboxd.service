@@ -1,0 +1,13 @@
+[Unit]
+Description=Dropbox daemon
+After=network.target
+
+[Service]
+User=lahwaacz
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/dropboxd
+ExecStop=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

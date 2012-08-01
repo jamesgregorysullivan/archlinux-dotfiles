@@ -1,0 +1,11 @@
+[Unit]
+Description=rfkill
+After=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/rfkill block bluetooth
+ExecStart=/usr/sbin/rfkill unblock wifi
+
+[Install]
+WantedBy=multi-user.target

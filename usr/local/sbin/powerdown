@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# powerdown - powersave script
+
+if [[ $EUID != 0 ]]; then
+  echo "[powerdown] must be run as root"
+  exit 1
+fi
+
+source /usr/local/lib/powerdown-functions
+
+# bus
+for i in /sys/bus/{pci,spi,i2c}/devices/*/power/control; do opt $i auto; done
+
+# aspm
+opt /sys/module/pcie_aspm/parameters/policy powersave
+
+# usb autosuspend
+opt /sys/module/usbcore/parameters/autosuspend 10
+for i in /sys/bus/usb/devices/*/power/autosuspend; do opt $i 10; done
+for i in /sys/bus/usb/devices/*/power/control; do opt $i auto; done
+for i in /sys/bus/usb/devices/*/power/level; do opt $i auto; done
+
+# cpu
+for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt $i powersave; done
+
+# kernel write mode
+opt /proc/sys/vm/laptop_mode 5
+opt /proc/sys/vm/dirty_ratio 90
+opt /proc/sys/vm/dirty_background_ratio 40
+opt /proc/sys/vm/dirty_expire_centisecs 60000
+opt /proc/sys/vm/dirty_writeback_centisecs 60000
+
+# Disk powersave
+for dev in "/dev/sd[a-z]"; do run hdparm -W 0 -S 6 -B 1 -F $dev; done
+for dev in "/dev/sd[a-z]"; do run blockdev --setra 4096 $dev; done
+for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i min_power; done
+
+# remount partitions
+run mount -o remount,commit=600 /dev/sda1
+run mount -o remount,commit=600 /dev/sda2
+run mount -o remount,noatime,commit=600 /dev/sda3
+
+# Sound card powersave
+opt /sys/module/snd_hda_intel/parameters/power_save 1
+opt /sys/module/snd_hda_intel/parameters/power_save_controller Y
+
+# disable WakeOnLan on eth0
+run ethtool -s eth0 wol d
+
+# wlan0 powersave
+run iwconfig wlan0 power on
+
+# Screen powersave
+for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 1; done
+
+# Disable webcam
+unload uvcvideo
+
+# Disable bluetooth
+unload btusb
+unload bluetooth
+
+# radeon power profile
+opt /sys/class/drm/card0/device/power_profile low
+
+# nmi_watchdog
+opt /proc/sys/kernel/nmi_watchdog 0

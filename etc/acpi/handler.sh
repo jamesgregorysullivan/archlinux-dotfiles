@@ -43,13 +43,9 @@ case "$1" in
                 /usr/local/bin/lock-tmux-console-clients.sh
                 su $USER -c "/usr/local/bin/lock-X-session.sh"
                 ;;
-            WLAN)
-                if [ -f /var/run/wpa_supplicant_*.pid ]; then
-                    rc.d stop net-auto-wireless
-                else
-                    rc.d start net-auto-wireless
-                fi
-                ;;
+#            WLAN)
+#                systemctl start rfkill.service
+#                ;;
             *)
                 logger "ATKD handler - undefined action (arguments: $@)"
                 ;;
