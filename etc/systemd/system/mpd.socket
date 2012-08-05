@@ -1,0 +1,9 @@
+[Unit]
+Description=mpd socket
+
+[Socket]
+ListenStream=6600
+Service=mpd.service
+
+[Install]
+WantedBy=sockets.target
