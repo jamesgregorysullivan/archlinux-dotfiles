@@ -24,9 +24,9 @@ rebootcommand='sudo systemctl reboot'
 # Note that this option requires pm-utils
 # to be installed and properly configured.
 allowsuspend=yes
-suspendcommand='sudo pm-suspend'
+suspendcommand='sudo systemctl suspend'
 allowhibernate=yes
-hibernatecommand='sudo pm-hibernate'
+hibernatecommand='sudo systemctl hibernate'
 
 ############################
 ### SYSTEM CONFIGURATION ###
