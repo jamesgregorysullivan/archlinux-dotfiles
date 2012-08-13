@@ -37,12 +37,12 @@ for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i max_
 
 # remount root partition relatime
 run mount -o remount,commit=0 /dev/sda1
-run mount -o remount,commit=0 /dev/sda2
-run mount -o remount,relatime,commit=0 /dev/sda3
+run mount -o remount,commit=60 /dev/sda2
+run mount -o remount,relatime,commit=60 /dev/sda3
 
 # Sound card powersave
-opt /sys/module/snd_hda_intel/parameters/power_save 0
-opt /sys/module/snd_hda_intel/parameters/power_save_controller N
+#opt /sys/module/snd_hda_intel/parameters/power_save 0
+#opt /sys/module/snd_hda_intel/parameters/power_save_controller N
 
 # enable WakeOnLan on eth0
 run ethtool -s eth0 wol g
