@@ -4,7 +4,6 @@ After=iptables.service
 
 [Service]
 ExecStart=/usr/sbin/sshguard -l /var/log/auth.log &> /dev/null
-ExecStop=/bin/kill -HUP $MAINPID
 
 [Install]
 WantedBy=multi-user.target

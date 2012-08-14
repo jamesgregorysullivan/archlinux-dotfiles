@@ -1,0 +1,10 @@
+[Unit]
+Description=Weekly Timer
+
+[Timer]
+OnBootSec=30m
+OnUnitActiveSec=7d
+Unit=timer-weekly.target
+
+[Install]
+WantedBy=basic.target
