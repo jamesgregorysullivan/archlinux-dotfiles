@@ -1,0 +1,5 @@
+.include /usr/lib/systemd/system/net-auto-wireless.service
+
+[Unit]
+After=iptables.service
+Requires=iptables.service
