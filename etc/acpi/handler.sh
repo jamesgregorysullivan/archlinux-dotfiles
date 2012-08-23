@@ -29,26 +29,21 @@ case "$1" in
     button*)
         case "$2" in
             PBTN)
-                oblogout
+                oblogout &
                 ;;
             LID)
-                /usr/local/bin/lock-tmux-console-clients.sh
-                su $USER -c "/usr/local/bin/lock-X-session.sh"
+                systemctl start slimlock.service
                 /etc/acpi/actions/toggle_dpms.sh
                 ;;
             VOLUP|VOLDN|MUTE)
                 /etc/acpi/actions/osd_volume.sh "$2"
                 ;;
             SCRNLCK)
-                /usr/local/bin/lock-tmux-console-clients.sh
-                su $USER -c "/usr/local/bin/lock-X-session.sh"
+                systemctl start slimlock.service
                 ;;
 #            WLAN)
 #                systemctl start rfkill.service
 #                ;;
-            *)
-                logger "ATKD handler - undefined action (arguments: $@)"
-                ;;
         esac
         ;;
     cd*)
@@ -71,9 +66,6 @@ case "$1" in
         case "$2" in
             BRTUP|BRTDN)
                 /etc/acpi/actions/osd_lcd_brightness.sh
-                ;;
-            *)
-                logger "ATKD handler - undefined action (arguments: $@)"
                 ;;
         esac
         ;;

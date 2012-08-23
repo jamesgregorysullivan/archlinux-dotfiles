@@ -1,0 +1,11 @@
+[Unit]
+Description=Lock all ttys using vlock
+After=chvt7.service
+Requires=chvt7.service
+
+[Service]
+User=lahwaacz
+ExecStart=/usr/bin/slimlock
+
+[Install]
+WantedBy=sleep.target
