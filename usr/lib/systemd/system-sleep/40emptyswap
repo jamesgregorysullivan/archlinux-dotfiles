@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [[ $1 == "post" && $2 == "hibernate" ]]; then
+    mem=`free|grep Mem:|awk '{print $4}'`
+    swap=`free|grep Swap:|awk '{print $3}'`
+    if [[ $mem -gt $swap ]]; then
+        swapoff -a
+        swapon -a
+    fi
+fi
