@@ -33,6 +33,7 @@ case "$1" in
                 ;;
             LID)
                 systemctl start slimlock.service
+                systemctl start tmuxlock.service
                 /etc/acpi/actions/toggle_dpms.sh
                 ;;
             VOLUP|VOLDN|MUTE)
@@ -40,6 +41,7 @@ case "$1" in
                 ;;
             SCRNLCK)
                 systemctl start slimlock.service
+                systemctl start tmuxlock.service
                 ;;
 #            WLAN)
 #                systemctl start rfkill.service

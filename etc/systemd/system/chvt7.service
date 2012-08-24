@@ -1,9 +1,0 @@
-[Unit]
-Description=Switch to tty7 before running slimlock
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/chvt 7
-
-[Install]
-WantedBy=sleep.target

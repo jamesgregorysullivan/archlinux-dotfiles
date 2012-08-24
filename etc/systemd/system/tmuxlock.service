@@ -1,0 +1,9 @@
+[Unit]
+Description=Lock all tmux clients in tty (not in virtual terminal under X)
+
+[Service]
+Type=oneshot
+ExecStart=/etc/systemd/scripts/tmuxlock.sh
+
+[Install]
+WantedBy=sleep.target
