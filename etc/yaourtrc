@@ -6,18 +6,16 @@
 
 # General
 #AUTOSAVEBACKUPFILE=0
-DEVELBUILDDIR="/media/data/Linux/AUR"
-#DEVEL=0
+DEVELBUILDDIR="/media/data/Linux/aur-develbuilddir"
+DEVEL=1
 EDITOR="$EDITOR"
 #FORCEENGLISH=0
 #FORCE=0
 TMPDIR="/tmp"
-#SUDONOVERIF=0      # Avoid multiple sudo checks when timestamp_timeout=0
 
-# ABS
-# If the package "abs" is installed, those var are parsed from abs.conf
-#REPOS=()           # REPOS available at $SYNCSERVER
-#SYNCSERVER=""
+# Sudo
+#SUDONOVERIF=0      # Avoid multiple sudo checks when timestamp_timeout=0
+#SUDOREDIRECT=1     # When 0, yaourt doesn't redirect sudo standard output
 
 # AUR 
 AURCOMMENT=5
@@ -27,10 +25,10 @@ AURUPGRADE=1
 #AURVOTE=1
 
 # Build
-EXPORT=0           # Export to 1: EXPORTDIR or PKGDEST
+EXPORT=1           # Export to 1: EXPORTDIR or PKGDEST
                     # 2: pacman cache (as root)
-EXPORTSRC=0        # Need EXPORT>0 to be used
-EXPORTDIR="/media/data/Linux/AUR"       # If empty, use makepkg's connfiguration (see makepkg.conf)
+EXPORTSRC=1        # Need EXPORT>0 to be used
+#EXPORTDIR=          # If empty, use makepkg's connfiguration (see makepkg.conf)
 
 # Prompt
 #NOCONFIRM=0
