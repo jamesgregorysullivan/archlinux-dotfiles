@@ -12,7 +12,6 @@ if [[ ! -z $DBUS ]];then
         fi
     done
 fi
-export HOME=$USERHOME   # required by oblogout
 
 case "$1" in
     hotkey)
@@ -28,9 +27,6 @@ case "$1" in
         ;;
     button*)
         case "$2" in
-            PBTN)
-                oblogout &
-                ;;
             LID)
                 systemctl start slimlock.service
                 systemctl start tmuxlock.service
