@@ -32,9 +32,6 @@ case "$1" in
                 systemctl start tmuxlock.service
                 /etc/acpi/actions/toggle_dpms.sh
                 ;;
-            VOLUP|VOLDN|MUTE)
-                /etc/acpi/actions/osd_volume.sh "$2"
-                ;;
             SCRNLCK)
                 systemctl start slimlock.service
                 systemctl start tmuxlock.service
@@ -63,7 +60,7 @@ case "$1" in
     video*)
         case "$2" in
             BRTUP|BRTDN)
-                /etc/acpi/actions/osd_lcd_brightness.sh
+                su lahwaacz -c "/etc/acpi/actions/display-brightness-notify.py"
                 ;;
         esac
         ;;
