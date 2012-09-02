@@ -8,24 +8,24 @@
 # See journald.conf(5) for details
 
 [Journal]
-Storage=persistent
 Compress=yes
-Seal=no
 RateLimitInterval=10s
 RateLimitBurst=100
-SystemMaxUse=40M
+SystemMaxUse=20M
 #SystemKeepFree=
-SystemMaxFileSize=2M
+SystemMaxFileSize=1M
 #SystemMinFileSize=
 RuntimeMaxUse=10M
 #RuntimeKeepFree=
-RuntimeMaxFileSize=2M
+RuntimeMaxFileSize=1M
 #RuntimeMinFileSize=
-#ForwardToSyslog=yes
-#ForwardToKMsg=no
-#ForwardToConsole=no
-#TTYPath=/dev/console
-#MaxLevelStore=debug
+ForwardToSyslog=no
+ForwardToKMsg=no
+ForwardToConsole=no
+MaxLevelStore=debug
 #MaxLevelSyslog=debug
 #MaxLevelKMsg=notice
-#MaxLevelConsole=info
+#MaxLevelConsole=debug
+#TTYPath=/dev/tty11
+#ImportKernel=no
+Storage=persistent

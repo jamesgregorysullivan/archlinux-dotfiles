@@ -54,7 +54,7 @@ run iwconfig wlan0 power off
 for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 15; done
 
 # Enable webcam
-load uvcvideo
+#load uvcvideo
 #load nouveau
 #load videodev
 

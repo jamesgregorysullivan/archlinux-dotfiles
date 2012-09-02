@@ -8,18 +8,18 @@
 # See journald.conf(5) for details
 
 [Journal]
-Storage=persistent
-Compress=yes
-Seal=no
-RateLimitInterval=10s
-RateLimitBurst=100
-SystemMaxUse=40M
+#Storage=auto
+#Compress=yes
+#Seal=yes
+#RateLimitInterval=10s
+#RateLimitBurst=200
+#SystemMaxUse=
 #SystemKeepFree=
-SystemMaxFileSize=2M
+#SystemMaxFileSize=
 #SystemMinFileSize=
-RuntimeMaxUse=10M
+#RuntimeMaxUse=
 #RuntimeKeepFree=
-RuntimeMaxFileSize=2M
+#RuntimeMaxFileSize=
 #RuntimeMinFileSize=
 #ForwardToSyslog=yes
 #ForwardToKMsg=no

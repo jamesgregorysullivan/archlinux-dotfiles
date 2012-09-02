@@ -1,5 +1,0 @@
-.include /usr/lib/systemd/system/network.target
-
-[Unit]
-Before=iptables.service
-Requires=iptables.service
