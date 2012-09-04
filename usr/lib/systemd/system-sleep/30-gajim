@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Set up the field separator:
+IFS=$'\n'
+
+# Set sleep time to connect after resume (for wifi)
+SLEEP=10
+
+if [ "$1" == "post" ]; then
+	sleep $SLEEP
+fi
+
+# Process each instance separately:
+for INSTANCE in `ps -eopid,comm,user | grep -e '[\t ]gajim'`; do
+    # Decompose the record:
+    PID=`echo $INSTANCE | awk '{ print $1 }'`
+    USR=`echo $INSTANCE | awk '{ print $3 }'`
+
+    # Export the DBUS session address:
+    TMP=`grep -z DBUS_SESSION_BUS_ADDRESS /proc/$PID/environ`
+    export DBUS_SESSION_BUS_ADDRESS=${TMP:25}
+
+    case "$1" in
+        pre)
+            su $USR -c 'gajim-remote change_status offline "Notebook fell asleep..."'
+            ;;
+        post)
+            su $USR -c 'gajim-remote change_status online'
+            ;;
+    esac
+
+done
