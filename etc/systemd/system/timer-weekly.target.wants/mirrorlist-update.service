@@ -5,4 +5,6 @@ Description=Update /etc/pacman.d/mirrorlist
 Nice=19
 IOSchedulingClass=2
 IOSchedulingPriority=7
-ExecStart=/etc/cron.weekly/update-mirrorlist
+Type=oneshot
+ExecStart=/bin/cp --preserve=all /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.old
+ExecStart=/usr/bin/reflector --number 10 --sort rate --country Czech\ Republic --country Germany --save /etc/pacman.d/mirrorlist

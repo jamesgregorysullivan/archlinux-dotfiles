@@ -3,3 +3,6 @@
 [Unit]
 After=iptables.service
 Requires=iptables.service
+
+[Service]
+KillMode=none
