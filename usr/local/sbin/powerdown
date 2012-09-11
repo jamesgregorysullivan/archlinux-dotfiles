@@ -36,9 +36,8 @@ for dev in "/dev/sd[a-z]"; do run blockdev --setra 4096 $dev; done
 for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i min_power; done
 
 # remount partitions
-run mount -o remount,commit=600 /dev/sda1
-run mount -o remount,commit=600 /dev/sda2
-run mount -o remount,noatime,commit=600 /dev/sda3
+run mount -o remount,noatime,commit=600 /dev/sda2
+run mount -o remount,commit=600 /dev/sda3
 
 # Sound card powersave
 opt /sys/module/snd_hda_intel/parameters/power_save 1

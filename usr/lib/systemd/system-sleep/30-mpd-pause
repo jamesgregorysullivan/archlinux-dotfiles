@@ -1,5 +1,0 @@
-#!/bin/bash
-
-if [[ $1 == "pre" ]]; then
-    mpc -q pause
-fi
