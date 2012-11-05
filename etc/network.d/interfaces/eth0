@@ -1,4 +1,2 @@
-RFKILL='hard'
-RFKILL_NAME='phy0'
 POST_UP='systemctl start dropboxd.service; echo 1 > /sys/devices/platform/asus_laptop/wlan; chronyc -m "password lahwaacz" online > /dev/null'
 PRE_DOWN='systemctl stop dropboxd.service; echo 0 > /sys/devices/platform/asus_laptop/wlan; chronyc -m "password lahwaacz" offline > /dev/null'
