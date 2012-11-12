@@ -8,7 +8,11 @@ case "$1" in
                 systemctl start tmuxlock.service
                 /etc/acpi/actions/toggle_dpms.sh
                 ;;
-            SCRNLCK)
+        esac
+        ;;
+    hotkey)
+        case "$3" in
+            0000005c)
                 systemctl start slimlock.service
                 systemctl start tmuxlock.service
                 ;;
