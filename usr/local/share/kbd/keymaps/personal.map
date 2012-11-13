@@ -1,6 +1,3 @@
-keycode 58 = Tab
-keycode 15 = Caps_Lock
-
 AltGr keycode  2 = exclam
 AltGr keycode  3 = at
 AltGr keycode  4 = numbersign
