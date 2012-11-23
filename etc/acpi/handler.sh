@@ -10,12 +10,4 @@ case "$1" in
                 ;;
         esac
         ;;
-    hotkey)
-        case "$3" in
-            0000005c)
-                systemctl start slimlock.service
-                systemctl start tmuxlock.service
-                ;;
-        esac
-        ;;
 esac
