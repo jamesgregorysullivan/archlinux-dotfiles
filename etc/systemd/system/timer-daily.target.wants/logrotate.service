@@ -1,8 +1,0 @@
-[Unit]
-Description=Rotate logs created by syslog-ng
-
-[Service]
-Nice=19
-IOSchedulingClass=2
-IOSchedulingPriority=7
-ExecStart=/usr/sbin/logrotate /etc/logrotate.conf
