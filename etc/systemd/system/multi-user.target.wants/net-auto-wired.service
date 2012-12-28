@@ -1,1 +1,1 @@
-/usr/lib/systemd/system/net-auto-wired.service
+/etc/systemd/system/net-auto-wired.service

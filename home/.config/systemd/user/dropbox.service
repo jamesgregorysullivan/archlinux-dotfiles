@@ -3,7 +3,6 @@ Description=Dropbox daemon
 After=network.target
 
 [Service]
-User=lahwaacz
 Environment=DISPLAY=:0
 ExecStart=/usr/bin/dropboxd
 KillSignal=SIGINT
@@ -11,4 +10,5 @@ Restart=on-success
 RestartSec=1
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical.target
+WantedBy=console.target

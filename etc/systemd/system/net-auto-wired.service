@@ -1,0 +1,5 @@
+.include /usr/lib/systemd/system/net-auto-wired.service
+
+[Unit]
+After=iptables.service
+Requires=iptables.service
