@@ -26,7 +26,7 @@ for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt $i ondema
 # kernel write mode
 opt /proc/sys/vm/laptop_mode 0
 opt /proc/sys/vm/dirty_ratio 30
-opt /proc/sys/vm/dirty_background_ratio 10
+opt /proc/sys/vm/dirty_background_ratio 30
 opt /proc/sys/vm/dirty_expire_centisecs 1500
 opt /proc/sys/vm/dirty_writeback_centisecs 1500
 
@@ -40,8 +40,8 @@ run mount -o remount,relatime,commit=60 /dev/sda2
 run mount -o remount,commit=60 /dev/sda3
 
 # Sound card powersave
-#opt /sys/module/snd_hda_intel/parameters/power_save 0
-#opt /sys/module/snd_hda_intel/parameters/power_save_controller N
+opt /sys/module/snd_hda_intel/parameters/power_save 0
+opt /sys/module/snd_hda_intel/parameters/power_save_controller N
 
 # enable WakeOnLan on eth0
 run ethtool -s eth0 wol g

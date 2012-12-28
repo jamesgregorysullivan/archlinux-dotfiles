@@ -70,23 +70,3 @@ display_wireless() {
   control=$(iwconfig $1 | grep "Power Management" | cut -d : -f 2)
   echo " - $1 power management: $control"
 }
-
-
-## hibernation
-hibernate_offset() {
-  filefrag -v /hibernate | awk '{print $3}' | awk 'NR==4'
-}
-
-root_partion() {
-  df / | awk '{print $1}' | awk 'NR==2'
-}
-
-resume_boot_option() {
-  echo "'resume=$(root_partion) resume_offset=$(hibernate_offset)'"
-}
-
-
-## powerdown-auto
-on_ac() {
-  echo $(cat /sys/class/power_supply/AC0/online)
-}
