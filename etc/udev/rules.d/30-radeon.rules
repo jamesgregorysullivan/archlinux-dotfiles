@@ -1,0 +1,1 @@
+KERNEL=="card0", SUBSYSTEM=="drm", DRIVERS=="radeon", ATTR{device/power_method}="dynpm"

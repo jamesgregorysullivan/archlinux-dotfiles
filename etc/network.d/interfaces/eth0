@@ -1,2 +1,2 @@
-POST_UP='systemctl start dropboxd.service; chronyc -m "password lahwaacz" online > /dev/null'
-PRE_DOWN='systemctl stop dropboxd.service; chronyc -m "password lahwaacz" offline > /dev/null'
+POST_UP='chronyc -m "password lahwaacz" online > /dev/null'
+PRE_DOWN='chronyc -m "password lahwaacz" offline > /dev/null'

@@ -1,0 +1,7 @@
+# usb, esata (don't use SUBSYSTEM=="usb")
+KERNEL=="sd[b-z][1-9]", ACTION=="add", RUN+="/usr/bin/sudo lahwaacz -c /usr/bin/udevil mount /dev/%k"
+KERNEL=="sd[b-z][1-9]", ACTION=="remove", RUN+="/usr/bin/sudo lahwaacz -c /usr/bin/udevil clean"
+
+# card reader
+KERNEL=="mmcblk[0-9]p[0-9]", ACTION=="add", RUN+="/usr/bin/sudo -u lahwaacz -c /usr/bin/udevil mount /dev/%k"
+KERNEL=="mmcblk[0-9]p[0-9]", ACTION=="remove", RUN+="/usr/bin/sudo -u lahwaacz -c /usr/bin/udevil clean"
