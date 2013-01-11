@@ -58,7 +58,10 @@ display_module btusb
 display_module bluetooth
 
 # radeon power profile
-check /sys/class/drm/card0/device/power_profile
+check /sys/class/drm/card0/device/power_method
+if [[ $(cat /sys/class/drm/card0/device/power_method) == "profile" ]]; then
+    check /sys/class/drm/card0/device/power_profile
+fi
 
 # nmi_watchdog
 check /proc/sys/kernel/nmi_watchdog

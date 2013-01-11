@@ -9,10 +9,10 @@ fi
 source /usr/local/lib/powerdown-functions
 
 # bus
-for i in /sys/bus/{pci,spi,i2c}/devices/*/power/control; do opt $i on; done
+#for i in /sys/bus/{pci,spi,i2c}/devices/*/power/control; do opt $i on; done
 
 # aspm
-opt /sys/module/pcie_aspm/parameters/policy default
+#opt /sys/module/pcie_aspm/parameters/policy default
 
 # usb autosuspend
 opt /sys/module/usbcore/parameters/autosuspend 0
@@ -40,8 +40,8 @@ run mount -o remount,relatime,commit=60 /dev/sda2
 run mount -o remount,commit=60 /dev/sda3
 
 # Sound card powersave
-opt /sys/module/snd_hda_intel/parameters/power_save 0
-opt /sys/module/snd_hda_intel/parameters/power_save_controller N
+#opt /sys/module/snd_hda_intel/parameters/power_save 0
+#opt /sys/module/snd_hda_intel/parameters/power_save_controller N
 
 # enable WakeOnLan on eth0
 run ethtool -s eth0 wol g
@@ -51,6 +51,9 @@ run iwconfig wlan0 power off
 
 # Screen powersave
 for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 15; done
+
+# radeon dynamic profile management
+opt /sys/class/drm/card0/device/power_method dynpm
 
 # Enable webcam
 #load uvcvideo

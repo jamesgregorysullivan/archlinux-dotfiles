@@ -2,9 +2,10 @@
 Description=Weekly Timer
 
 [Timer]
-OnBootSec=30min
+OnStartupSec=1h
 OnUnitActiveSec=7d
 Unit=timer-weekly.target
 
 [Install]
-WantedBy=basic.target
+WantedBy=console.target
+WantedBy=graphical.target

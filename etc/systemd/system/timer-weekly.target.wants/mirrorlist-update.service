@@ -1,5 +1,6 @@
 [Unit]
 Description=Update /etc/pacman.d/mirrorlist
+Requisite=network.target
 
 [Service]
 Nice=19
