@@ -8,7 +8,7 @@
 #AUTOSAVEBACKUPFILE=0
 DEVELBUILDDIR="/var/cache/aur-develbuilddir"
 DEVEL=0
-EDITOR="$EDITOR"
+EDITOR="vim"
 #FORCEENGLISH=0
 #FORCE=0
 TMPDIR="/tmp"
@@ -34,7 +34,7 @@ EXPORTSRC=1        # Need EXPORT>0 to be used
 #NOCONFIRM=0
 UP_NOCONFIRM=1     # No prompt while build upgrades (including -Sbu)
 #BUILD_NOCONFIRM=0  # Only prompt for editing files
-EDITFILES=0
+EDITFILES=1
 #NOENTER=1
 
 # Output

@@ -6,8 +6,8 @@
 # List of programs, commands with whitespaces should be quoted or escaped.
 # If unset, all sessions in /etc/X11/Sessions are offered as choices.
 binlist=(
-  "~/.xinitrc openbox-session"
-  "~/.xinitrc spectrwm"
+  "~/.xinitrc wmfs2"
+  "/usr/lib/systemd/systemd --user --unit=wm.target"
   "/bin/zsh --login"
   "/usr/bin/systemctl poweroff"
   "/usr/bin/systemctl reboot"
@@ -17,12 +17,12 @@ binlist=(
 
 # List all program display names, one-by-one matched with $binlist.
 # Names with whitespaces should be quoted or escaped.
-namelist=("Openbox" "spectrwm" "Console" "Shutdown" "Reboot" "Suspend" "Hibernate")
+namelist=("WMFS2" "WMFS2 systemd" "Console" "Shutdown" "Reboot" "Suspend" "Hibernate")
 
 # Type of the programs, one-by-one matched with $binlist.
 # `C' for *C*onsole programs, which would be `exec'ed.
 # `X' for *X* programs, which would be run with cdm-xlaunch(1).
-flaglist=(X X C C C C C)
+flaglist=(X C C C C C C)
 
 # Style for the cdm dialog, which is printed with dialog(1).
 # Default to unset, causing dialog(1) to use the system wide default.
