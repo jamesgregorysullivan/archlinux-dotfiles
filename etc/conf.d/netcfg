@@ -4,7 +4,7 @@
 # Network profiles are found in /etc/network.d
 #
 #NETWORKS=(menu)
-NETWORKS=(RSP)
+NETWORKS=(RSP eth0-dhcp-client)
 
 ## Specify the name of your wired interface for net-auto-wired
 WIRED_INTERFACE="eth0"

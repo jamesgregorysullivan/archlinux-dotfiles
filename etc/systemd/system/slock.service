@@ -1,0 +1,11 @@
+[Unit]
+Description=Lock X session using slock
+
+[Service]
+User=lahwaacz
+Environment=DISPLAY=:0
+Type=forking
+ExecStart=/usr/bin/slock
+
+[Install]
+WantedBy=sleep.target
