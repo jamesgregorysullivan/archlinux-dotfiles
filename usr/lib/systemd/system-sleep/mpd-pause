@@ -1,5 +1,5 @@
 #!/bin/bash
 
 if [[ $1 == "pre" ]]; then
-    pidof mpd > /dev/null && mpc -q pause || exit 0
+    pgrep -x mpd > /dev/null && mpc -q pause || exit 0
 fi
