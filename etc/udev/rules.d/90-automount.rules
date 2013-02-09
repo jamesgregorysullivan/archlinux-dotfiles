@@ -1,0 +1,8 @@
+# usb, esata (don't use SUBSYSTEM=="usb")
+# doesn't work for ntfs - ignore
+KERNEL=="sd[b-z][1-9]", ACTION=="add", ENV{ID_FS_TYPE}!="ntfs", RUN+="/usr/bin/sudo -u lahwaacz /usr/bin/udevil mount /dev/%k"
+KERNEL=="sd[b-z][1-9]", ACTION=="remove", RUN+="/usr/bin/sudo -u lahwaacz /usr/bin/udevil umount /dev/%k"
+
+# card reader
+KERNEL=="mmcblk[0-9]p[0-9]", ACTION=="add", RUN+="/usr/bin/sudo -u lahwaacz /usr/bin/udevil mount /dev/%k"
+KERNEL=="mmcblk[0-9]p[0-9]", ACTION=="remove", RUN+="/usr/bin/sudo -u lahwaacz /usr/bin/udevil umount /dev/%k"

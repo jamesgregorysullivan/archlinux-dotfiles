@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # powerdown - get energy usagei
 
+if [[ $EUID != 0 ]]; then
+  echo "[powerdown] must be run as root"
+  exit 1
+fi
+
 source /usr/local/lib/powerdown-functions
 
 display_power

@@ -16,9 +16,9 @@ source /usr/local/lib/powerdown-functions
 
 # usb autosuspend
 opt /sys/module/usbcore/parameters/autosuspend 0
-for i in /sys/bus/usb/devices/*/power/autosuspend; do opt $i 0; done
-for i in /sys/bus/usb/devices/*/power/control; do opt $i on; done
-for i in /sys/bus/usb/devices/*/power/level; do opt $i on; done
+#for i in /sys/bus/usb/devices/*/power/autosuspend; do opt $i 0; done
+#for i in /sys/bus/usb/devices/*/power/control; do opt $i on; done
+#for i in /sys/bus/usb/devices/*/power/level; do opt $i on; done
 
 # cpu
 for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt $i ondemand; done
@@ -33,7 +33,7 @@ opt /proc/sys/vm/dirty_writeback_centisecs 1500
 # Disk powersave
 for dev in "/dev/sd[a-z]"; do run hdparm -W 1 -S 0 -B 254 $dev; done
 for dev in "/dev/sd[a-z]"; do run blockdev --setra 256 $dev; done
-for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i max_performance; done
+#for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i max_performance; done
 
 # remount root partition relatime
 run mount -o remount,relatime,commit=60 /dev/sda2
@@ -44,16 +44,16 @@ run mount -o remount,commit=60 /dev/sda3
 #opt /sys/module/snd_hda_intel/parameters/power_save_controller N
 
 # enable WakeOnLan on eth0
-run ethtool -s eth0 wol g
+#run ethtool -s eth0 wol g
 
 # wlan0/eth0 powersave
-run iwconfig wlan0 power off
+#run iw dev wlan0 set power_save off
 
 # Screen powersave
-for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 15; done
+#for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 15; done
 
 # radeon dynamic profile management
-opt /sys/class/drm/card0/device/power_method dynpm
+#opt /sys/class/drm/card0/device/power_method dynpm
 
 # Enable webcam
 #load uvcvideo
