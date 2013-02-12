@@ -8,10 +8,6 @@ ACTION=="add", SUBSYSTEM=="pci", ATTR{power/control}="auto"
 # sata powersave
 ACTION=="add", SUBSYSTEM=="scsi_host", ATTR{link_power_management_policy}="min_power"
 
-# network powersave
-ACTION=="add", SUBSYSTEM=="net", KERNEL=="eth*" RUN+="/usr/sbin/ethtool -s %k wol d"
-ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan*" RUN+="/usr/sbin/iw dev %k set power_save on"
-
 # usb powersave (do not apply on wireless mouse/keyboard)
 ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="04b4", ATTRS{idProduct}=="0060", GOTO="usb_powersave_end"
 ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52b", GOTO="usb_powersave_end"
@@ -33,3 +29,6 @@ SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", RUN+="/usr/bin/bset ma
 # change dpms settings
 SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/lahwaacz/.Xauthority", RUN+="/usr/bin/xset dpms 60 60 60"
 SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/lahwaacz/.Xauthority", RUN+="/usr/bin/xset dpms 600 600 600"
+
+# turn off network interfaces as they show up
+ACTION=="add", SUBSYSTEM=="net", KERNEL!="lo" RUN+="/usr/sbin/ip link set %k down"

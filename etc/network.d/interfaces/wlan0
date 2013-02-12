@@ -1,4 +1,4 @@
 RFKILL='hard'
 RFKILL_NAME='phy0'
-POST_UP='echo 1 > /sys/devices/platform/asus_laptop/wlan; chronyc -m "password lahwaacz" online > /dev/null'
+POST_UP='echo 1 > /sys/devices/platform/asus_laptop/wlan; chronyc -m "password lahwaacz" online > /dev/null; iwconfig wlan0 power on'
 PRE_DOWN='echo 0 > /sys/devices/platform/asus_laptop/wlan; chronyc -m "password lahwaacz" offline > /dev/null'
