@@ -1,0 +1,6 @@
+[Unit]
+Description=My little container
+
+[Service]
+ExecStart=/usr/bin/systemd-nspawn -jbD /srv/lxc-archlinux 3
+KillMode=process
