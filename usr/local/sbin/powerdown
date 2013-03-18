@@ -49,7 +49,7 @@ opt /proc/sys/vm/dirty_writeback_centisecs 60000
 # Disk powersave
 for dev in "/dev/sd[a-z]"; do run hdparm -W 0 -S 12 -B 127 -F $dev; done
 for dev in "/dev/sd[a-z]"; do run blockdev --setra 4096 $dev; done
-for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i min_power; done
+#for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i min_power; done
 
 # remount partitions
 run mount -o remount,noatime,commit=600 /dev/sda2

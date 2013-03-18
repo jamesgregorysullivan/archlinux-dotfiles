@@ -2,8 +2,7 @@
 Description=Daily Timer
 
 [Timer]
-OnBootSec=1h
-OnUnitActiveSec=1d
+OnCalendar=*-*-* 21:30:00
 Unit=timer-daily.target
 
 [Install]

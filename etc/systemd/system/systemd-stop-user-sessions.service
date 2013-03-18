@@ -8,12 +8,12 @@
 [Unit]
 Description=Disable User Sessions
 Documentation=man:systemd-user-sessions.service(8)
-Before=shutdown.target
 DefaultDependencies=no
+Before=shutdown.target umount.target final.target
 
 [Service]
 Type=oneshot
-RemainAfterExit=yes
+RemainAfterExit=no
 ExecStart=/usr/lib/systemd/systemd-user-sessions stop
 
 [Install]
