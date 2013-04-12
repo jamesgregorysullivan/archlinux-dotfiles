@@ -6,4 +6,4 @@ OnCalendar=Sun *-*-* 21:30:00
 Unit=timer-weekly.target
 
 [Install]
-WantedBy=basic.target
+WantedBy=timers.target
