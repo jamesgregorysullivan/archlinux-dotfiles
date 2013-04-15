@@ -1,0 +1,28 @@
+[Unit]
+Description=Virtual Distributed Ethernet
+
+[Service]
+Environment=TAP_DEV=tap0
+Environment=TAP_IP=192.168.100.254
+Environment=TAP_MASK=24
+Environment=TAP_NETWORK=192.168.100.0
+
+# Host interface
+Environment=NIC=eth0
+
+Type=forking
+Restart=on-abort
+ExecStart=/usr/bin/vde_switch --daemon --tap $TAP_DEV --mode 0660 --dirmode 0750 --group kvm
+
+ExecStartPost=/usr/bin/sleep 1
+ExecStartPost=/usr/sbin/ip address add $TAP_IP/$TAP_MASK dev $TAP_DEV
+ExecStartPost=/usr/sbin/ip link set $TAP_DEV up
+ExecStartPost=/sbin/sysctl -w nat.ipv4.ip_forward=1
+ExecStartPost=/usr/sbin/iptables -t nat -A POSTROUTING -s $TAP_NETWORK/$TAP_MASK -o $NIC -j MASQUERADE
+
+ExecStopPost=/usr/sbin/iptables -t nat -D POSTROUTING $TAP_NETWORK/$TAP_MASK -o $NIC -j MASQUERADE
+ExecStopPost=/sbin/sysctl -w nat.ipv4.ip_forward=0
+ExecStopPost=/usr/sbin/ip link set $TAP_DEV down
+
+[Install]
+WantedBy=multi-user.target

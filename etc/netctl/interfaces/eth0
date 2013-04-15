@@ -1,0 +1,1 @@
+ExecUpPost='ethtool -s eth0 wol d'

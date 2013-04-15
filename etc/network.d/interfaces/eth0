@@ -1,2 +1,0 @@
-POST_UP='chronyc -m "password lahwaacz" online > /dev/null; ethtool -s eth0 wol d'
-PRE_DOWN='chronyc -m "password lahwaacz" offline > /dev/null'

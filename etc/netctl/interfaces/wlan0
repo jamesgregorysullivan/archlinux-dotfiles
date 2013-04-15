@@ -1,0 +1,3 @@
+RFKill=phy0
+ExecUpPost='echo 1 > /sys/devices/platform/asus_laptop/wlan; iwconfig wlan0 power on'
+ExecDownPre='echo 0 > /sys/devices/platform/asus_laptop/wlan'

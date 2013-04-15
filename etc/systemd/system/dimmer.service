@@ -1,0 +1,8 @@
+[Unit]
+Description=A simple backlight dimmer
+
+[Service]
+ExecStart=/usr/bin/dimmer --dim-by=100
+
+[Install]
+WantedBy=multi-user.target
