@@ -1,0 +1,35 @@
+# $Id: PKGBUILD 85395 2013-03-01 10:38:40Z andrea $
+# Maintainer: Jaroslav Lichtblau <dragonlord@aur.archlinux.org>
+# Contributor: Alois Nespor <alois.nespor@gmail.com>
+
+pkgname=qstardict
+pkgver=1.0.1
+pkgrel=2
+pkgdesc="Qt4 clone of StarDict with full support of StarDict dictionaries"
+arch=('i686' 'x86_64')
+url="http://qstardict.ylsoftware.com/index.php"
+license=('GPL2')
+groups=('modified')
+depends=('qt4')
+provides=('stardict')
+changelog=$pkgname.changelog
+source=("http://qstardict.ylsoftware.com/files/$pkgname-$pkgver.tar.bz2"
+        "xdg-runtime-dir.patch")
+sha256sums=('b778ace65a22e5b9724d687ad90c77ec98feb2671774f73cd51725ec7b59e62f'
+            '7816c68b5c9290eceda702ed446625ddc59a50b7c3f556b611588bb1cfb8fe47')
+
+build() {
+  cd "${srcdir}/$pkgname-$pkgver"
+  sed -i -e 's|glib/gmem.h|glib.h|' -e 's|glib/gstrfuncs.h|glib.h|' plugins/stardict/stardict.cpp
+
+  patch -p0 < "$srcdir/xdg-runtime-dir.patch"
+
+  qmake ENABLED_PLUGINS="stardict web swac"
+  make
+}
+
+package() {
+  cd "${srcdir}/$pkgname-$pkgver"
+
+  make INSTALL_ROOT="${pkgdir}" install
+}
