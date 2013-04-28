@@ -5,9 +5,6 @@ umask 022
 
 # Set our default path
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
-if [ -d $HOME/bin ]; then
-    PATH=$HOME/bin:$PATH
-fi
 export PATH
 
 # Load profiles from /etc/profile.d
