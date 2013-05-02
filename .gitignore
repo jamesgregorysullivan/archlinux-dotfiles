@@ -2,7 +2,3 @@
 *.db
 *.gpg
 *.pyc
-
-# some specific files
-etc/grub.d/01_password-security
-Scripts/backup-wordpress-kmlinux-server-side.sh
