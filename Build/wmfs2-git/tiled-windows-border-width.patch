@@ -1,0 +1,14 @@
+diff --git src/client.c src/client.c
+index 7b9790e..db38e8b 100644
+--- src/client.c
++++ src/client.c
+@@ -1115,7 +1115,8 @@ client_winsize(struct client *c, struct geo *g)
+      c->wgeo.h = oh = tmp.h - (c->border + c->tbarw);
+      c->wgeo.w = ow = tmp.w - (c->border << 1);
+ 
+-     client_geo_hints(&c->wgeo, (int*)c->sizeh);
++     if(c->flags & CLIENT_FREE)
++          client_geo_hints(&c->wgeo, (int*)c->sizeh);
+ 
+      /* Check possible problem for tile integration */
+      if(ow < c->sizeh[MINW] || oh < c->sizeh[MINH])

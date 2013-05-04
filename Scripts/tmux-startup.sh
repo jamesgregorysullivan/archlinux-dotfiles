@@ -9,11 +9,9 @@ tmux move-window -s "$1":1 -t "$1":10
 # 1 - todo list
 tmux new-window -t "$1":1 -n todo   'zsh -is eval "vim ~/Dropbox/Notes/todo"'
 # 2 - git
-tmux new-window -t "$1":2 -n git    'zsh -is eval "cd ~/git-lahwaacz/archlinux-dotfiles"'
-# 3 - Star Trek
-tmux new-window -t "$1":3 -n VOY    'zsh -is eval "cd ~/Filmy-NEW/Star.Trek.ENT/Season\ 1"'
-# 4 - empty shell
-tmux new-window -t "$1":4
+tmux new-window -t "$1":2 -n git    'zsh -is eval "cd ~/GitHub-repos/archlinux-dotfiles"'
+# 3 - empty shell
+tmux new-window -t "$1":3
 
 # remove original window
 tmux kill-window -t "$1":10
