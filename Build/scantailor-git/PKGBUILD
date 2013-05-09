@@ -1,0 +1,45 @@
+# Maintainer: Petr Kovar <pejuko@gmail.com>
+
+pkgname=scantailor-git
+_pkgname=scantailor
+pkgver=RELEASE_0_9_11.193.g6cf8b9d
+pkgrel=1
+pkgdesc="Interactive post-processing tool for scanned pages"
+arch=(i686 x86_64)
+url="http://scantailor.sourceforge.net"
+license=('GPL')
+groups=('modified')
+depends=('qt4' 'libjpeg' 'zlib' 'libpng' 'libtiff' 'libxrender' 'desktop-file-utils' 'xdg-utils')
+makedepends=('git' 'cmake' 'boost')
+conflicts=('scantailor')
+install=scantailor.install
+source=('git://scantailor.git.sourceforge.net/gitroot/scantailor/scantailor#branch=enhanced'
+        'scantailor.desktop')
+md5sums=('SKIP'
+         '7fdbdef6167d124762421ec99a98f8de')
+
+pkgver() {
+  cd "$_pkgname"
+  git describe --tags --always | sed 's|-|.|g'
+}
+
+build() {
+  cd "$srcdir/$_pkgname"
+  make PREFIX=/usr all
+}
+
+
+build() {
+  rm -rf "$srcdir/$_pkgname/build"
+  mkdir -p "$srcdir/$_pkgname/build"
+  cd "$srcdir/$_pkgname/build"
+  cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  make
+}
+
+package() {
+  cd "$srcdir/$_pkgname/build"
+  make DESTDIR="$pkgdir/" install
+  install -Dm644 "$srcdir/$_pkgname/resources/appicon.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/scantailor.svg"
+  install -Dm644 "$srcdir/scantailor.desktop" "$pkgdir/usr/share/applications/scantailor.desktop"
+} 

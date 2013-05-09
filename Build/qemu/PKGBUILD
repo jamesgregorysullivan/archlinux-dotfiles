@@ -1,8 +1,7 @@
-# $Id: PKGBUILD 179325 2013-03-05 14:58:22Z tpowa $
 # Maintainer: Tobias Powalowski <tpowa@archlinux.org>
 pkgname=qemu
 pkgver=1.4.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A generic and open source processor emulator which achieves a good emulation speed by using dynamic translation."
 arch=('i686' 'x86_64')
 groups=('modified')
@@ -29,7 +28,7 @@ prepare()
 
 build ()
 {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "${srcdir}/${pkgname}-${pkgver}"  
   ./configure --prefix=/usr --sysconfdir=/etc --audio-drv-list=oss,alsa,sdl,pa \
               --python=/usr/bin/python2 \
               --audio-card-list=ac97,sb16,es1370,hda \
