@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 178012 2013-02-13 16:03:52Z foutrelis $
+# $Id: PKGBUILD 185575 2013-05-15 08:05:35Z bpiotrowski $
 # Maintainer: Evangelos Foutras <evangelos@foutrelis.com>
 # Contributor: Ionut Biru <ibiru@archlinux.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
@@ -7,7 +7,7 @@
 
 pkgname=('pidgin' 'libpurple' 'finch')
 pkgver=2.10.7
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 groups=('modified')
 url="http://pidgin.im/"
@@ -39,16 +39,16 @@ build() {
     --disable-gnutls \
     --enable-cyrus-sasl \
     --disable-doxygen \
+    --disable-nm \
+    --with-python=/usr/bin/python2 \
+    --with-system-ssl-certs=/etc/ssl/certs \
     --disable-dot \
     --disable-devhelp \
     --disable-vv \
-    --with-python=/usr/bin/python2 \
-    --with-system-ssl-certs=/etc/ssl/certs \
     --disable-gstreamer \
     --disable-gstreamer-interfaces \
     --disable-tk \
     --disable-tcl \
-    --disable-nm \
     --disable-avahi \
     --with-dynamic-prpls=irc,jabber \
     --disable-gestures \
