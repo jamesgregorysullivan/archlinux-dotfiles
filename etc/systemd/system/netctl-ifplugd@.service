@@ -5,9 +5,5 @@
 After=iptables.service
 Requires=iptables.service
 
-# pull in network target
-Before=network.target
-Wants=network.target
-
 [Service]
-TimeoutSec=2s
+TimeoutSec=1s

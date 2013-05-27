@@ -1,4 +1,4 @@
-ExecUpPost='chronyc -m "password lahwaacz" online > /dev/null'
-ExecDownPre='chronyc -m "password lahwaacz" offline > /dev/null'
+ExecUpPost='chronyc -m "password lahwaacz" online > /dev/null; systemctl start network-online.target'
+ExecDownPre='chronyc -m "password lahwaacz" offline > /dev/null; systemctl start network-online.target'
 
 DHCPClient=dhclient

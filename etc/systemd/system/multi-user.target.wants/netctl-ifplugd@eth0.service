@@ -1,1 +1,1 @@
-/usr/lib/systemd/system/netctl-ifplugd@.service
+/etc/systemd/system/netctl-ifplugd@.service
