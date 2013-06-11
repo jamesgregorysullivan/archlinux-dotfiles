@@ -5,3 +5,6 @@ Requires=dbus.socket
 [Service]
 ExecStart=/usr/bin/dbus-daemon --session --address=systemd: --nofork --systemd-activation
 ExecReload=/usr/bin/dbus-send --print-reply --session --type=method_call --dest=org.freedesktop.DBus / org.freedesktop.DBus.ReloadConfig
+
+# we need to set DISPLAY so that we can activate graphical services (for example dunst)
+Environment=DISPLAY=:0
