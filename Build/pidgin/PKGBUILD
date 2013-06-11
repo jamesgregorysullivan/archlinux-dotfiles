@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 185575 2013-05-15 08:05:35Z bpiotrowski $
+# $Id: PKGBUILD 186422 2013-05-26 09:25:53Z bluewind $
 # Maintainer: Evangelos Foutras <evangelos@foutrelis.com>
 # Contributor: Ionut Biru <ibiru@archlinux.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
@@ -7,7 +7,7 @@
 
 pkgname=('pidgin' 'libpurple' 'finch')
 pkgver=2.10.7
-pkgrel=3
+pkgrel=4
 arch=('i686' 'x86_64')
 groups=('modified')
 url="http://pidgin.im/"

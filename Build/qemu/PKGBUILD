@@ -1,6 +1,6 @@
 # Maintainer: Tobias Powalowski <tpowa@archlinux.org>
 pkgname=qemu
-pkgver=1.4.1
+pkgver=1.4.2
 pkgrel=3
 pkgdesc="A generic and open source processor emulator which achieves a good emulation speed by using dynamic translation."
 arch=('i686' 'x86_64')
@@ -12,18 +12,14 @@ depends=('pixman' 'libjpeg' 'libpng' 'sdl' 'alsa-lib' 'nss' 'glib2' 'gnutls>=2.4
 backup=('etc/qemu/target-x86_64.conf')
 install=qemu.install
 source=(http://wiki.qemu.org/download/${pkgname}-${pkgver}.tar.bz2
-        doc-fix-sheepdog-invalid-texi-table-list-syntax.patch
         65-kvm.rules)
 replaces=('qemu-kvm')
-options=(!strip)
+options=(!strip !libtool)
 
 prepare()
 {
   cd "${srcdir}/${pkgname}-${pkgver}"
   sed -i -e 's/lib64/lib/g' ldscripts/x86_64.ld
-  # fix building with tex version 5.0
-  # https://bugs.launchpad.net/qemu/+bug/1130533
-  patch -Np1 -i ${srcdir}/doc-fix-sheepdog-invalid-texi-table-list-syntax.patch
 }
 
 build ()
@@ -59,6 +55,5 @@ package() {
     done
 
 }
-md5sums=('eb2d696956324722b5ecfa46e41f9a75'
-         'b431782f310bfc6af4ef21a8068f866b'
+md5sums=('b3eafa033ae4b8faba584f9f141b888f'
          'b316a066d2f1bb57d8f5b7ea1d0d1caf')

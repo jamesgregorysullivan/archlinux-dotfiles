@@ -7,7 +7,7 @@ _patchlevel=918
 __hgrev=c61da758a9a2
 _versiondir="vim${_topver//./}"
 pkgver=${_topver}.${_patchlevel}
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 groups=('modified')
 license=('custom:vim')
@@ -73,10 +73,10 @@ build() {
     --disable-gpm \
     --enable-acl \
     --with-x=yes \
-    --enable-gui \
-    --disable-signs \
-    --disable-netbeans \
-    --enable-multibyte 
+    --enable-gui=gtk2 \
+    --enable-multibyte \
+    --enable-cscope \
+    --disable-netbeans
 
   make
 }
