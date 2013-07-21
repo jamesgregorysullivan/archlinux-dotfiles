@@ -1,0 +1,51 @@
+# Maintainer: kfgz <kfgz at interia pl>
+# Contributor: reMiND <detanator at gmail dot com>
+
+pkgname=aqemu-git
+_pkgname='aqemu'
+pkgver=2012.07.22
+pkgrel=1
+epoch=1
+pkgdesc="QEMU GUI written in Qt4"
+arch=('i686' 'x86_64')
+groups=('modified')
+url="http://sourceforge.net/projects/aqemu/"
+license=('GPL2')
+depends=('qt4' 'openssl' 'libvncserver')
+#cmake check libvncserver automatically; for building without libvncserver
+#uncomment -DWITHOUT_EMBEDDED_DISPLAY=on
+makedepends=('git' 'cmake')
+provides=('aqemu')
+conflicts=('aqemu')
+install=aqemu.install
+source=('git://aqemu.git.sourceforge.net/gitroot/aqemu/aqemu'
+        'cmake.patch')
+md5sums=('SKIP'
+         'b80309a56dbcf38361a31098c90102c4')
+
+pkgver() {
+  cd "$_pkgname"
+  git log -1 --format=format:%cd --date=short | sed 's|-|.|g'
+}
+
+prepare() {
+  cd "$_pkgname"
+  # fix qt4 build ('rcc' not found)
+  patch -p0 -i "$srcdir/cmake.patch"
+}
+
+build() {
+  cd "$_pkgname"
+  cmake . \
+    -DCMAKE_INSTALL_PREFIX=/usr/ \
+    -DCMAKE_PREFIX_PATH=/usr/lib/qt4 \
+    -DQT_QMAKE_EXECUTABLE=qmake-qt4 \
+    -DCMAKE_BUILD_TYPE=Release \
+#   -DWITHOUT_EMBEDDED_DISPLAY=on
+  make
+}
+
+package() {
+  cd "$_pkgname"
+  make DESTDIR="$pkgdir" install
+}

@@ -1,0 +1,109 @@
+pkgname=vim-hg
+pkgver=7.3.1287
+pkgrel=1
+pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
+arch=('i686' 'x86_64')
+groups=('modified')
+license=('custom:vim')
+url="http://www.vim.org"
+depends=('perl' 'gawk' 'gtk2')
+makedepends=('mercurial')
+conflicts=('vim' 'vim-runtime' 'gvim')
+provides=('vim=7.3' 'vim-runtime=7.3' 'gvim=7.3')
+source=('hg+http://vim.googlecode.com/hg/vim'
+        'vimrc'
+        'archlinux.vim'
+        'gvim.desktop')
+md5sums=('SKIP'
+         '20fceda56badf201695c57999b0bc609'
+         '10353a61aadc3f276692d0e17db1478e'
+         'd90413bd21f400313a785bb4010120cd')
+install='vim.install'
+backup=('etc/vimrc')
+
+pkgver() {
+  cd vim
+  hg tip --template '{latesttag}\n' | sed 's/^v//;s/-/./g'
+}
+
+build() {
+  cd "$srcdir/vim/src"
+
+  # define the place for the global (g)vimrc file (set to /etc/vimrc)
+  sed -i 's|^.*\(#define SYS_.*VIMRC_FILE.*"\) .*$|\1|' \
+    feature.h
+  sed -i 's|^.*\(#define VIMRC_FILE.*"\) .*$|\1|' \
+    feature.h
+
+  autoconf
+
+  ./configure \
+    --prefix=/usr \
+    --localstatedir=/var/lib/vim \
+    --with-features=normal \
+    --with-compiledby=lahwaacz \
+    --disable-gpm \
+    --enable-acl \
+    --with-x=yes \
+    --enable-gui=gtk2 \
+    --enable-multibyte \
+    --enable-cscope \
+    --disable-netbeans
+
+  make
+}
+
+package() {
+  cd "$srcdir/vim"
+
+  IFS='-' read VERSION PATCH <<< "$(hg tip --template '{latesttag}\n' | sed 's/^v//;s/-/./')"
+  versiondir=vim$(sed 's/\.//' <<< "$VERSION")
+
+  make VIMRCLOC=/etc DESTDIR=$pkgdir install
+
+  # provided by (n)vi in core
+  rm "${pkgdir}"/usr/bin/{ex,view}
+
+  # delete some manpages
+  find "${pkgdir}"/usr/share/man -type d -name 'man1' 2>/dev/null | \
+    while read _mandir; do
+    cd ${_mandir}
+    rm -f ex.1 view.1 # provided by (n)vi
+  done
+
+  install -dm755 "${pkgdir}"/usr/share
+
+  # Don't forget logtalk.dict
+  install -Dm644 "${srcdir}"/vim/runtime/ftplugin/logtalk.dict \
+    "${pkgdir}"/usr/share/vim/${versiondir}/ftplugin/logtalk.dict
+
+  # fix FS#17216
+  sed -i 's|messages,/var|messages,/var/log/messages.log,/var|' \
+    "${pkgdir}"/usr/share/vim/${versiondir}/filetype.vim
+
+  # patch filetype.vim for better handling of pacman related files
+  sed -i "s/rpmsave/pacsave/;s/rpmnew/pacnew/;s/,\*\.ebuild/\0,PKGBUILD*,*.install/" \
+    "${pkgdir}"/usr/share/vim/${versiondir}/filetype.vim
+  sed -i "/find the end/,+3{s/changelog_date_entry_search/changelog_date_end_entry_search/}" \
+    "${pkgdir}"/usr/share/vim/${versiondir}/ftplugin/changelog.vim
+
+  # rc files
+  install -Dm644 "${srcdir}"/vimrc "${pkgdir}"/etc/vimrc
+  install -Dm644 "${srcdir}"/archlinux.vim \
+    "${pkgdir}"/usr/share/vim/${versiondir}/archlinux.vim
+
+  # rgb.txt file
+  install -Dm644 "${srcdir}"/vim/runtime/rgb.txt \
+    "${pkgdir}"/usr/share/vim/${versiondir}/rgb.txt
+
+  # freedesktop links
+  install -Dm644 "${srcdir}"/gvim.desktop \
+    "${pkgdir}"/usr/share/applications/gvim.desktop
+  install -Dm644 runtime/vim48x48.png "${pkgdir}"/usr/share/pixmaps/gvim.png
+
+  # license
+  install -Dm644 "${srcdir}"/vim/runtime/doc/uganda.txt \
+    "${pkgdir}"/usr/share/licenses/${pkgname}/license.txt
+}
+
+# vim:set ts=2 sw=2 et:

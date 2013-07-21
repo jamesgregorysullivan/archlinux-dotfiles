@@ -1,0 +1,46 @@
+# Mainteiner: Ulrich Keller <uhkeller at gmail dot com>
+# Contributor: James Thomas <dairy_water at yahoo dot co dot uk>
+# Contributor: Anton Larionov <diffident dot cat at gmail dot com>
+
+
+_pkgname=cantata
+pkgname="${_pkgname}-qt"
+pkgver=1.0.3
+pkgrel=2
+pkgdesc="QT4 client for the music player daemon (MPD) (without kdelibs)"
+arch=('i686' 'x86_64')
+groups=('modified')
+url="https://code.google.com/p/cantata/"
+license=('GPL')
+depends=('qt4')
+optdepends=('libmtp: to support MTP devices'
+'oxygen-icons: to fill in otherwise missing icons')
+makedepends=('cmake' 'automoc4')
+provides=('cantata')
+conflicts=('cantata')
+install=${pkgname}.install
+source=("http://cantata.googlecode.com/files/${_pkgname}-${pkgver}.tar.bz2")
+md5sums=('fd942d25127a7936efaf1fe887d66189')
+
+build() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  rm -rf build
+  mkdir build
+  cd build
+
+  cmake .. \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_PREFIX_PATH=/usr/lib/qt4 \
+    -DQT_QMAKE_EXECUTABLE=qmake-qt4 \
+    -DENABLE_KDE=NO \
+    -DENABLE_PHONON=NO \
+    -DENABLE_ONLINE_SERVICES=NO \
+    -DCDPARANOIA_FOUND=FALSE
+  make
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}/build"
+  make DESTDIR=${pkgdir} install
+}
+

@@ -1,0 +1,44 @@
+# Maintainer: Thorsten Töpper <atsutane-aur@freethoughts.de>
+# Contributor: William Giokas <1007380@gmail.com>
+
+pkgname=i3status-git
+_pkgname=i3status
+pkgver=2.7.16.gc8a0b14
+pkgrel=1
+pkgdesc="Generates status bar to use with dzen2 or wmii"
+arch=('i686' 'x86_64')
+groups=('modified')
+url="http://i3wm.org/i3status/"
+license=('BSD')
+depends=('wireless_tools' 'confuse' 'alsa-lib' 'yajl')
+makedepends=('git' 'pkgconfig' 'asciidoc')
+options=('docs')
+install=i3status.install
+conflicts=('i3status')
+provides=('i3status')
+source=(git://github.com/lahwaacz/i3status)
+sha1sums=('SKIP')
+
+
+pkgver() {
+  cd "$srcdir/$_pkgname"
+  git describe --tags | sed 's/-/./g'
+}
+
+build() {
+  cd "$_pkgname"
+  make
+}
+
+package() {
+  cd "$_pkgname"
+
+  make DESTDIR="$pkgdir" install
+
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+  make clean
+}
+
+# vim:set ts=2 sw=2 et:
+

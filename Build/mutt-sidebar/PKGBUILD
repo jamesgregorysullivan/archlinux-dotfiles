@@ -25,36 +25,36 @@ md5sums=('a29db8f1d51e2f10c070bf88e8a553fd'
          '537e6e55255ce82bd7877f4b696bca50')
 
 build() {
-        cd "${srcdir}/mutt-${pkgver}"
+    cd "${srcdir}/mutt-${pkgver}"
 
-        msg "Patching... Sidebar"
-        patch -p1 -i ${srcdir}/patch-1.5.21.sidebar.20130219.txt
+    msg "Patching... Sidebar"
+    patch -p1 -i ${srcdir}/patch-1.5.21.sidebar.20130219.txt
 
-        msg "Patching... Trashfolder"
-        patch -p1 -i ${srcdir}/trash_folder-1.5.18.patch
+    msg "Patching... Trashfolder"
+    patch -p1 -i ${srcdir}/trash_folder-1.5.18.patch
 
-        ./configure \
-                --prefix=/usr \
-                --sysconfdir=/etc \
-                --enable-gpgme \
-                --enable-smtp \
-                --enable-hcache \
-                --with-curses=/usr \
-                --with-regex \
-                --with-gss=/usr \
-                --with-ssl=/usr \
-                --with-sasl \
-                --with-idn \
+    ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --enable-gpgme \
+        --enable-smtp \
+        --enable-hcache \
+        --with-curses=/usr \
+        --with-regex \
+        --with-gss=/usr \
+        --with-ssl=/usr \
+        --with-sasl \
+        --with-idn \
 
-        make
+    make
 }
 
 package() {
-        cd "${srcdir}/mutt-${pkgver}"
-        make DESTDIR="${pkgdir}" install
+    cd "${srcdir}/mutt-${pkgver}"
+    make DESTDIR="${pkgdir}" install
 
-        rm "${pkgdir}"/usr/bin/{flea,muttbug}
-        rm "${pkgdir}"/usr/share/man/man1/{flea,muttbug}.1
-        rm "${pkgdir}"/etc/mime.types{,.dist}
-        install -Dm644 contrib/gpg.rc "${pkgdir}"/etc/Muttrc.gpg.dist
+    rm "${pkgdir}"/usr/bin/{flea,muttbug}
+    rm "${pkgdir}"/usr/share/man/man1/{flea,muttbug}.1
+    rm "${pkgdir}"/etc/mime.types{,.dist}
+    install -Dm644 contrib/gpg.rc "${pkgdir}"/etc/Muttrc.gpg.dist
 }
