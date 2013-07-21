@@ -4,8 +4,8 @@ After=sysinit.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/sbin/rfkill block bluetooth
-ExecStart=/usr/sbin/rfkill unblock wifi
+ExecStart=/usr/bin/rfkill block bluetooth
+ExecStart=/usr/bin/rfkill unblock wifi
 
 [Install]
 WantedBy=multi-user.target

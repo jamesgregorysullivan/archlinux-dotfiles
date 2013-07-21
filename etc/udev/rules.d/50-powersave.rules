@@ -1,6 +1,6 @@
 # run custom scripts on power online/offline event
-SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", RUN+="/usr/local/sbin/powerdown"
-SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", RUN+="/usr/local/sbin/powerup"
+SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", RUN+="/usr/local/bin/powerdown"
+SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", RUN+="/usr/local/bin/powerup"
 
 # pci bus powersave
 ACTION=="add", SUBSYSTEM=="pci", ATTR{power/control}="auto"
@@ -16,6 +16,7 @@ ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control" ATTR{power/control}="auto
 LABEL="usb_powersave_end"
 
 # radeon low power profile
+#KERNEL=="card0", SUBSYSTEM=="drm", DRIVERS=="radeon", ATTR{device/power_method}="dynpm"
 KERNEL=="card0", SUBSYSTEM=="drm", DRIVERS=="radeon", ATTR{device/power_method}="profile"
 KERNEL=="card0", SUBSYSTEM=="drm", DRIVERS=="radeon", ATTR{device/power_profile}="low"
 
@@ -31,4 +32,4 @@ SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", ENV{DISPLAY}=":0", ENV
 SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/lahwaacz/.Xauthority", RUN+="/usr/bin/xset dpms 600 600 600"
 
 # turn off network interfaces as they show up
-ACTION=="add", SUBSYSTEM=="net", KERNEL!="lo" RUN+="/usr/sbin/ip link set %k down"
+ACTION=="add", SUBSYSTEM=="net", KERNEL!="lo" RUN+="/usr/bin/ip link set %k down"

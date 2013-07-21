@@ -3,5 +3,5 @@ Description=Verify integrity of password and group files
 
 [Service]
 Type=oneshot
-ExecStart=/usr/sbin/pwck -r
-ExecStart=/usr/sbin/grpck -r
+ExecStart=/usr/bin/pwck -r
+ExecStart=/usr/bin/grpck -r
