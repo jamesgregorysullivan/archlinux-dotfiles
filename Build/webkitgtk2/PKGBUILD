@@ -29,6 +29,7 @@ build() {
     --disable-webkit2 \
     --with-gstreamer=0.10 \
     --with-gtk=2.0 \
+    --enable-spellcheck \
     --disable-geolocation
 
   # https://bugzilla.gnome.org/show_bug.cgi?id=655517
