@@ -15,7 +15,7 @@ source /usr/local/lib/powerdown-functions
 #opt /sys/module/pcie_aspm/parameters/policy default
 
 # usb autosuspend
-opt /sys/module/usbcore/parameters/autosuspend 0
+#opt /sys/module/usbcore/parameters/autosuspend 0
 #for i in /sys/bus/usb/devices/*/power/autosuspend; do opt $i 0; done
 #for i in /sys/bus/usb/devices/*/power/control; do opt $i on; done
 #for i in /sys/bus/usb/devices/*/power/level; do opt $i on; done

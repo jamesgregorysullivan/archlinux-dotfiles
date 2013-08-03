@@ -31,5 +31,11 @@ SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", RUN+="/usr/bin/bset ma
 SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/lahwaacz/.Xauthority", RUN+="/usr/bin/xset dpms 60 60 60"
 SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/lahwaacz/.Xauthority", RUN+="/usr/bin/xset dpms 600 600 600"
 
+# disable Wake-on-LAN
+ACTION=="add", SUBSYSTEM=="net", KERNEL=="eth*" RUN+="/usr/bin/ethtool -s %k wol d"
+
+# powersaving on wireless interface
+ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan*" RUN+="/usr/bin/iw dev %k set power_save on"
+
 # turn off network interfaces as they show up
 ACTION=="add", SUBSYSTEM=="net", KERNEL!="lo" RUN+="/usr/bin/ip link set %k down"
