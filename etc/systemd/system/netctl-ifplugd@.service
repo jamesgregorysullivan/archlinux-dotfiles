@@ -1,9 +1,8 @@
 .include /usr/lib/systemd/system/netctl-ifplugd@.service
 
 [Unit]
-# start after iptables
-After=iptables.service
-Requires=iptables.service
+Before=network.target
+Wants=network.target
 
 [Service]
 TimeoutSec=1s

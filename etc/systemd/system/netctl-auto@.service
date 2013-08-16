@@ -1,9 +1,0 @@
-.include /usr/lib/systemd/system/netctl-auto@.service
-
-[Unit]
-# start after iptables
-After=iptables.service
-Requires=iptables.service
-
-[Service]
-TimeoutSec=2s

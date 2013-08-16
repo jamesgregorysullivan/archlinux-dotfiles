@@ -6,15 +6,17 @@
 #  (at your option) any later version.
 
 [Unit]
-Description=Disable User Sessions
+Description=Permit User Sessions
 Documentation=man:systemd-user-sessions.service(8)
-DefaultDependencies=no
-Before=shutdown.target umount.target final.target
+After=remote-fs.target
+Before=umount.target
+Conflicts=umount.target
 
 [Service]
 Type=oneshot
-RemainAfterExit=no
-ExecStart=/usr/lib/systemd/systemd-user-sessions stop
+RemainAfterExit=yes
+ExecStart=/usr/lib/systemd/systemd-user-sessions start
+ExecStop=/usr/lib/systemd/systemd-user-sessions stop
 
 [Install]
-WantedBy=shutdown.target
+WantedBy=multi-user.target
