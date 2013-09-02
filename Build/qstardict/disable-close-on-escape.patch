@@ -1,0 +1,13 @@
+--- qstardict/mainwindow.cpp	2011-12-05 13:40:49.000000000 +0100
++++ qstardict/mainwindow.cpp	2013-09-02 21:05:14.925290532 +0200
+@@ -220,9 +220,7 @@
+         }
+         if (event->key() == Qt::Key_Escape)
+         {
+-            if (searchBox->text().isEmpty())
+-                close();
+-            else
++            if (! searchBox->text().isEmpty())
+                 searchBox->clear();
+         }
+     }

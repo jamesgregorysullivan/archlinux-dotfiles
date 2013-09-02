@@ -4,7 +4,7 @@
 
 pkgname=qstardict
 pkgver=1.0.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Qt4 clone of StarDict with full support of StarDict dictionaries"
 arch=('i686' 'x86_64')
 url="http://qstardict.ylsoftware.com/index.php"
@@ -14,17 +14,24 @@ depends=('qt4')
 provides=('stardict')
 changelog=$pkgname.changelog
 source=("http://qstardict.ylsoftware.com/files/$pkgname-$pkgver.tar.bz2"
-        "xdg-runtime-dir.patch")
+        "xdg-runtime-dir.patch"
+        "disable-close-on-escape.patch")
 sha256sums=('b778ace65a22e5b9724d687ad90c77ec98feb2671774f73cd51725ec7b59e62f'
-            '7816c68b5c9290eceda702ed446625ddc59a50b7c3f556b611588bb1cfb8fe47')
+            '7816c68b5c9290eceda702ed446625ddc59a50b7c3f556b611588bb1cfb8fe47'
+            '985cdd8cfa1442a3c30a3c6f2c99b76cb46b0e2d075e7e9dd680a72124a1fc84')
+
+prepare() {
+  cd "${srcdir}/$pkgname-$pkgver"
+
+  sed -i -e 's|glib/gmem.h|glib.h|' -e 's|glib/gstrfuncs.h|glib.h|' plugins/stardict/stardict.cpp
+  patch -p0 < "$srcdir/xdg-runtime-dir.patch"
+  patch -p0 < "$srcdir/disable-close-on-escape.patch"
+}
 
 build() {
   cd "${srcdir}/$pkgname-$pkgver"
-  sed -i -e 's|glib/gmem.h|glib.h|' -e 's|glib/gstrfuncs.h|glib.h|' plugins/stardict/stardict.cpp
 
-  patch -p0 < "$srcdir/xdg-runtime-dir.patch"
-
-  qmake ENABLED_PLUGINS="stardict web swac"
+  qmake-qt4 ENABLED_PLUGINS="stardict web swac"
   make
 }
 

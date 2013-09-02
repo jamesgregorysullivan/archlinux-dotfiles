@@ -1,0 +1,38 @@
+--- qstardict/main.cpp	2013-04-18 19:23:42.693669434 +0200
++++ qstardict/main.cpp	2013-04-18 19:23:33.640343935 +0200
+@@ -39,13 +39,24 @@
+ {
+     QStarDict::Application app(argc, argv);
+ #ifdef Q_OS_UNIX
+-    QSettings lockFile(QDir::homePath() + "/.qstardict/qstardict.pid", QSettings::IniFormat);
++    QString pidpath = qgetenv("XDG_RUNTIME_DIR");
++    if (pidpath.isEmpty())
++        pidpath = QDir::homePath() + "/.qstardict";
++    QFileInfo pidinfo(pidpath);
++    if (not pidinfo.permission(QFile::WriteUser | QFile::ReadUser))
++    {
++        qDebug("qstardict: can't open pid file");
++        return 1;
++    }
++    pidpath += "/qstardict.pid";
++
++    QSettings lockFile(pidpath, QSettings::IniFormat);
+     QString lastPid = lockFile.value("LastStart/pid").toString();
+     if (lastPid.length() && QDir("/proc/" + lastPid).exists() &&
+         lockFile.value("LastStart/time").toDateTime() == QFileInfo("/proc/" + lastPid).created())
+     {
+         qDebug("qstardict: already running");
+-        return 0;
++        return 1;
+     }
+     lockFile.setValue("LastStart/pid", getpid());
+     lockFile.setValue("LastStart/time", QFileInfo("/proc/" + QString::number(getpid())).created());
+@@ -57,7 +68,7 @@
+         QMessageBox::information(0, "Warning", "QStarDict is already running");
+         // Strange encoding issue...
+         // MessageBox(0, (LPCWSTR)"Warning", (LPCWSTR)"QStarDict is already running", MB_ICONWARNING);
+-        return 0;
++        return 1;
+     }
+ #endif // Q_OS_WIN
+ 
