@@ -1,19 +1,12 @@
+# $Id: PKGBUILD 191616 2013-07-27 20:19:26Z tpowa $
 # Maintainer: Tobias Powalowski <tpowa@archlinux.org>
-
-pkgname=qemu
-pkgver=1.5.1
-pkgrel=2
-pkgdesc="A generic and open source processor emulator which achieves a good emulation speed by using dynamic translation."
+pkgname=('qemu' 'libcacard')
+pkgver=1.5.2
+pkgrel=1
 arch=('i686' 'x86_64')
-groups=('modified')
 license=('GPL2' 'LGPL2.1')
 url="http://wiki.qemu.org/Index.html"
 makedepends=('texi2html' 'perl' 'python2')
-depends=('pixman' 'libjpeg' 'libpng' 'sdl' 'alsa-lib' 'nss' 'glib2'
-         'gnutls>=2.4.1' 'vde2' 'util-linux' 'curl' 'libsasl'
-         'libgl' 'libpulse' 'seabios' 'libcap-ng' 'libaio' 'libseccomp'
-         'libiscsi' 'spice>=0.12.2')
-backup=('etc/qemu/target-x86_64.conf')
 install=qemu.install
 source=(http://wiki.qemu.org/download/${pkgname}-${pkgver}.tar.bz2
         65-kvm.rules)
@@ -43,10 +36,17 @@ build ()
   make
 }
 
-package() {
+package_qemu() {
+  groups=('modified')
+  pkgdesc="A generic and open source processor emulator which achieves a good emulation speed by using dynamic translation."
+  depends=('pixman' 'libjpeg' 'libpng' 'sdl' 'alsa-lib' 'nss' 'glib2'
+           'gnutls>=2.4.1' 'vde2' 'util-linux' 'curl' 'libsasl'
+           'libgl' 'libpulse' 'seabios' 'libcap-ng' 'libaio' 'libseccomp'
+           'libiscsi' 'libcacard' 'spice>=0.12.2')
+  backup=('etc/qemu/target-x86_64.conf')
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-  make DESTDIR="${pkgdir}" install
+  make DESTDIR="$pkgdir" install
 
   # provided by seabios
   rm "${pkgdir}/usr/share/qemu/bios.bin"
@@ -68,7 +68,23 @@ package() {
       strip $STRIP_BINARIES "$binary"
     fi
   done
+
+  # remove libcacard files
+  rm -rf ${pkgdir}/usr/lib/libcacard*
+  rm -rf ${pkgdir}/usr/lib/pkgconfig/libcacard.pc
+  rm -rf ${pkgdir}/usr/bin/vscclient
 }
 
-md5sums=('b56e73bdcfdb214d5c68e13111aca96f'
+package_libcacard() {
+ pkgdesc="Common Access Card (CAC) Emulation"
+ options=('strip' '!libtool')
+ depends=('nss' 'libaio' 'libcap-ng' 'libiscsi' 'curl' 'vde2')
+ mkdir -p ${pkgdir}/usr/bin
+ mkdir -p ${pkgdir}/usr/lib/pkgconfig
+ cp -a ${srcdir}/qemu-${pkgver}/.libs/libcacard.so* ${pkgdir}/usr/lib/
+ cp -a ${srcdir}/qemu-${pkgver}/libcacard.pc ${pkgdir}/usr/lib/pkgconfig/
+ cp -a ${srcdir}/qemu-${pkgver}/.libs/vscclient ${pkgdir}/usr/bin/
+}
+
+md5sums=('04b94189ba587b3280713ded3b7f959a'
          '9d6de26867a05c306157e3d3c612b28a')

@@ -1,15 +1,15 @@
 pkgname=vim-hg
-pkgver=7.3.1287
+pkgver=7.4.016
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
 arch=('i686' 'x86_64')
 groups=('modified')
 license=('custom:vim')
 url="http://www.vim.org"
-depends=('perl' 'gawk' 'gtk2')
+depends=('perl' 'gawk' 'gtk2' 'desktop-file-utils')
 makedepends=('mercurial')
 conflicts=('vim' 'vim-runtime' 'gvim')
-provides=('vim=7.3' 'vim-runtime=7.3' 'gvim=7.3')
+provides=('vim=7.4' 'vim-runtime=7.4' 'gvim=7.4')
 source=('hg+http://vim.googlecode.com/hg/vim'
         'vimrc'
         'archlinux.vim'
@@ -55,9 +55,9 @@ build() {
 
 package() {
   cd "$srcdir/vim"
-
-  IFS='-' read VERSION PATCH <<< "$(hg tip --template '{latesttag}\n' | sed 's/^v//;s/-/./')"
-  versiondir=vim$(sed 's/\.//' <<< "$VERSION")
+ 
+  IFS='.' read MAJOR MINOR PATCH <<< "$pkgver"
+  versiondir=vim$MAJOR$MINOR
 
   make VIMRCLOC=/etc DESTDIR=$pkgdir install
 
@@ -96,7 +96,7 @@ package() {
   install -Dm644 "${srcdir}"/vim/runtime/rgb.txt \
     "${pkgdir}"/usr/share/vim/${versiondir}/rgb.txt
 
-  # freedesktop links
+  # freedesktop files
   install -Dm644 "${srcdir}"/gvim.desktop \
     "${pkgdir}"/usr/share/applications/gvim.desktop
   install -Dm644 runtime/vim48x48.png "${pkgdir}"/usr/share/pixmaps/gvim.png
