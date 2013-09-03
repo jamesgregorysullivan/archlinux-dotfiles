@@ -1,0 +1,22 @@
+[Unit]
+Description=Network connectivity for %i
+Wants=network.target
+Before=network.target
+BindsTo=sys-subsystem-net-devices-%i.device
+After=sys-subsystem-net-devices-%i.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/conf.d/network-wireless-adhoc@%i
+
+ExecStart=/usr/bin/rfkill unblock wifi   # perhaps not needed for you
+ExecStart=/usr/bin/ip link set %i up
+ExecStart=/usr/bin/wpa_supplicant -B -i %i -D nl80211,wext -c /etc/wpa_supplicant-adhoc.conf
+ExecStart=/usr/bin/ip addr add ${addr}/${mask} dev %i
+
+ExecStop=/usr/bin/ip addr flush dev %i
+ExecStop=/usr/bin/ip link set %i down
+
+[Install]
+WantedBy=multi-user.target
