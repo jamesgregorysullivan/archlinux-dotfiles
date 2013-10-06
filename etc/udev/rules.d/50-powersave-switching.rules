@@ -1,0 +1,52 @@
+# run custom scripts on power online/offline event
+
+SUBSYSTEM!="power_supply", GOTO="powersave_end"
+ENV{POWER_SUPPLY_ONLINE}=="0", GOTO="powerdown"
+ENV{POWER_SUPPLY_ONLINE}=="1", GOTO="powerup"
+GOTO="powersave_end"
+
+# enable powersaving
+LABEL="powerdown"
+
+# change cpu governor
+RUN+="/usr/bin/cpupower -c all frequency-set -g powersave"
+
+# virtual memory settings
+RUN+="/usr/bin/sysctl vm.laptop_mode=5 vm.dirty_ratio=25 vm.dirty_background_ratio=20 vm.dirty_expire_centisecs=60000 vm.dirty_writeback_centisecs=60000"
+
+# disk powersave, readahead
+RUN+="/usr/bin/hdparm -W 0 -S 12 -B 127 -F /dev/sda"
+RUN+="/usr/bin/blockdev --setra 4096 /dev/sda"
+
+# remount partitions
+RUN+="/usr/bin/mount -o remount,noatime,commit=600 /dev/sda2"
+RUN+="/usr/bin/mount -o remount,commit=600 /dev/sda3"
+
+# backlight brightness control
+RUN+="/usr/bin/bset 5"
+RUN+="/usr/bin/systemctl start dimmer.service"
+
+# change dpms settings
+ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/lahwaacz/.Xauthority", RUN+="/usr/bin/xset dpms 60 60 60"
+
+GOTO="powersave_end"
+
+# disable powersaving (revert back to default)
+LABEL="powerup"
+
+RUN+="/usr/bin/cpupower -c all frequency-set -g ondemand"
+
+RUN+="/usr/bin/sysctl vm.laptop_mode=0 vm.dirty_ratio=3 vm.dirty_background_ratio=2 vm.dirty_expire_centisecs=1500 vm.dirty_writeback_centisecs=1500"
+
+RUN+="/usr/bin/hdparm -W 1 -S 0 -B 254 /dev/sda"
+RUN+="/usr/bin/blockdev --setra 256 /dev/sda"
+
+RUN+="/usr/bin/mount -o remount,relatime,commit=60 /dev/sda2"
+RUN+="/usr/bin/mount -o remount,commit=60 /dev/sda3"
+
+RUN+="/usr/bin/systemctl stop dimmer.service"
+RUN+="/usr/bin/bset max"
+
+ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/lahwaacz/.Xauthority", RUN+="/usr/bin/xset dpms 600 600 600"
+
+LABEL="powersave_end"
