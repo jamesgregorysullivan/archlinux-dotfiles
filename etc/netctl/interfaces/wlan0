@@ -1,3 +1,0 @@
-RFKill=phy0
-ExecUpPost='echo 1 > /sys/devices/platform/asus_laptop/wlan'
-ExecDownPre='echo 0 > /sys/devices/platform/asus_laptop/wlan'

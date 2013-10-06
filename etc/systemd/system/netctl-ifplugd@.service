@@ -1,8 +1,0 @@
-.include /usr/lib/systemd/system/netctl-ifplugd@.service
-
-[Unit]
-Before=network.target
-Wants=network.target
-
-[Service]
-TimeoutSec=1s
