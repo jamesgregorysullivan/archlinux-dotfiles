@@ -1,4 +1,0 @@
-.include /usr/lib/systemd/system/cups.service
-
-[Unit]
-PartOf=printer.target

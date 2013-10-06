@@ -1,5 +1,5 @@
 [Unit]
-Description=Update man-db
+Description=Update manual page index caches
 
 [Service]
 Nice=19
