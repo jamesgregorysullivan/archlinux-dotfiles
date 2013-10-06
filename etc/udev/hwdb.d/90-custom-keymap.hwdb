@@ -1,0 +1,11 @@
+# Supported hardware matches:
+#  - USB keyboards:
+#      keyboard:usb:v<vendor_id>p<product_id>*
+#  - AT keyboards:
+#      keyboard:dmi:bvn*:bvr*:bd*:svn<vendor_string>:pn<product_string>:pvr*
+
+# switch CapsLock and Tab
+keyboard:usb:v*p*
+keyboard:dmi:bvn*:bvr*:bd*:svn*:pn*:pvr*
+ KEYBOARD_KEY_0f=capslock
+ KEYBOARD_KEY_3a=tab
