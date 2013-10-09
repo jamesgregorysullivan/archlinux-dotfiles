@@ -1,12 +1,12 @@
-# $Id: PKGBUILD 191616 2013-07-27 20:19:26Z tpowa $
+# $Id: PKGBUILD 194681 2013-09-21 21:20:52Z tpowa $
 # Maintainer: Tobias Powalowski <tpowa@archlinux.org>
 pkgname=('qemu' 'libcacard')
-pkgver=1.5.2
-pkgrel=1
+pkgver=1.6.0
+pkgrel=6
 arch=('i686' 'x86_64')
 license=('GPL2' 'LGPL2.1')
 url="http://wiki.qemu.org/Index.html"
-makedepends=('texi2html' 'perl' 'python2')
+makedepends=('texi2html' 'perl' 'python2' 'spice-protocol')
 install=qemu.install
 source=(http://wiki.qemu.org/download/${pkgname}-${pkgver}.tar.bz2
         65-kvm.rules)
@@ -19,6 +19,7 @@ build ()
   # gtk gui breaks keymappings at the moment
   ./configure --prefix=/usr \
               --sysconfdir=/etc \
+              --localstatedir=/var \
               --libexecdir=/usr/lib/qemu \
               --python=/usr/bin/python2 \
               --target-list='i386-softmmu i386-linux-user x86_64-softmmu x86_64-linux-user arm-softmmu arm-linux-user' \
@@ -50,6 +51,11 @@ package_qemu() {
 
   # provided by seabios
   rm "${pkgdir}/usr/share/qemu/bios.bin"
+  rm "${pkgdir}/usr/share/qemu/acpi-dsdt.aml"
+  rm "${pkgdir}/usr/share/qemu/q35-acpi-dsdt.aml"
+
+  # remove conflicting /var/run directory
+  rm -r "${pkgdir}/var"
 
   # udev rule
   install -D -m644 "${srcdir}/65-kvm.rules" "${pkgdir}/usr/lib/udev/rules.d/65-kvm.rules"
@@ -70,21 +76,24 @@ package_qemu() {
   done
 
   # remove libcacard files
+  rm -rf ${pkgdir}/usr/include/cacard
   rm -rf ${pkgdir}/usr/lib/libcacard*
   rm -rf ${pkgdir}/usr/lib/pkgconfig/libcacard.pc
   rm -rf ${pkgdir}/usr/bin/vscclient
 }
 
 package_libcacard() {
+ groups=('modified')
  pkgdesc="Common Access Card (CAC) Emulation"
  options=('strip' '!libtool')
  depends=('nss' 'libaio' 'libcap-ng' 'libiscsi' 'curl' 'vde2')
  mkdir -p ${pkgdir}/usr/bin
  mkdir -p ${pkgdir}/usr/lib/pkgconfig
+ mkdir -p ${pkgdir}/usr/include/cacard
+ cp -a ${srcdir}/qemu-${pkgver}/libcacard/*.h ${pkgdir}/usr/include/cacard/
  cp -a ${srcdir}/qemu-${pkgver}/.libs/libcacard.so* ${pkgdir}/usr/lib/
  cp -a ${srcdir}/qemu-${pkgver}/libcacard.pc ${pkgdir}/usr/lib/pkgconfig/
  cp -a ${srcdir}/qemu-${pkgver}/.libs/vscclient ${pkgdir}/usr/bin/
 }
-
-md5sums=('04b94189ba587b3280713ded3b7f959a'
+md5sums=('f3f39308472d629aca57a255a0c91ba9'
          '9d6de26867a05c306157e3d3c612b28a')
