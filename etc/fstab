@@ -4,7 +4,7 @@
 # <file system>        <dir>         <type>    <options>          <dump> <pass>
 
 UUID=ec04b3e5-f796-4661-a0ae-08f803189356  /                 ext4    defaults,relatime,errors=remount-ro,commit=60                         0       1
-UUID=e5b2e489-5a12-4186-9ed3-559c3dacc15c  /home             ext4    defaults,nodev,nosuid,noatime,commit=60,noauto,x-systemd.automount    0       2
+UUID=7be03b05-b962-4832-be76-61c7af7d22d1  /home             btrfs   defaults,nodev,nosuid,noatime,compress=lzo,space_cache,commit=60,noauto,x-systemd.automount    0       0
 
 tmpfs       /tmp    tmpfs   nodev,nosuid,noatime    0       0
 /swapfile   swap    swap    defaults                0       0 

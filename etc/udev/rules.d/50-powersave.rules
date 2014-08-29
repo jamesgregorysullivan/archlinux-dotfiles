@@ -8,6 +8,7 @@ ACTION=="add", SUBSYSTEM=="scsi_host", KERNEL=="host*", ATTR{link_power_manageme
 
 # usb powersave (do not apply on wireless mouse/keyboard)
 ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="04b4", ATTRS{idProduct}=="0060", GOTO="usb_powersave_end"
+ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="04f3", ATTRS{idProduct}=="02f4", GOTO="usb_powersave_end"
 ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52b", GOTO="usb_powersave_end"
 ACTION=="add", SUBSYSTEM=="usb", TEST=="power/autosuspend", ATTR{power/autosuspend}="1"
 ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
@@ -15,7 +16,7 @@ LABEL="usb_powersave_end"
 
 # radeon low power profile
 #KERNEL=="card0", SUBSYSTEM=="drm", DRIVERS=="radeon", ATTR{device/power_method}="dynpm"
-#KERNEL=="card0", SUBSYSTEM=="drm", DRIVERS=="radeon", ATTR{device/power_method}="profile", ATTR{device/power_profile}="low"
+KERNEL=="card0", SUBSYSTEM=="drm", DRIVERS=="radeon", ATTR{device/power_method}="profile", ATTR{device/power_profile}="low"
 
 # disable Wake-on-LAN
 ACTION=="add", SUBSYSTEM=="net", KERNEL=="eth*", RUN+="/usr/bin/ethtool -s %k wol d"
